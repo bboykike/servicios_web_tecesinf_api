@@ -60,7 +60,9 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
       field: "Comentario"
     }
   ];
+ 
 
+ // plantilla del correo
       const Enviar = () =>{
       const html=`<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
                     <tr>
