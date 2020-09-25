@@ -59,6 +59,7 @@ const ServicioSEs = ({idG, client, setActiveStep}) =>{
                   timer: 1500
                 }).then(function() {
 
+                // Plantilla del correo electronico que se envía al cliente cuando es dado de alta una orden de servicio
                 const html= `<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
                     <tr>
                         <td style="background-color: #ecf0f1; text-align: left; padding: 0">
