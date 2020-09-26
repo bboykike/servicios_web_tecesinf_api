@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -7,15 +7,33 @@ import { INITIAL_EVENTS, createEventId } from './event-utils'
 import esLocale from '@fullcalendar/core/locales/es';
 import listPlugin from '@fullcalendar/list';
 
+import styled from 'styled-components';
+import {TextField, Button, NativeSelect} from '@material-ui/core';
+import {Cookies} from 'react-cookie'
+import {Formik} from 'formik';
+import Api from '../../Helpers/Api';
+import axios from 'axios';
+
 
 export default class FullCalendario extends React.Component {
 
   state = {
     weekendsVisible: true,
-    currentEvents: []
+    currentEvents: [],
+    serviciosSE:[]
+  }
+ 
+  componentDidMount() {
+    Api.get(`ServiciosSEs`)
+      .then(res => {
+        const serviciosSE = res.data;
+        console.log(serviciosSE)
+        this.setState({ serviciosSE });
+      })
   }
 
   
+// {this.state.serviciosSE.map(servicio =>{servicio.Problema})}
 
   render() {
     return (
@@ -36,7 +54,7 @@ export default class FullCalendario extends React.Component {
             selectMirror={true}
             dayMaxEvents={true}
             weekends={this.state.weekendsVisible}
-            // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+            initialEvents={[{title: 'evento', date: '', color:'#000'}]} // alternatively, use the `events` setting to fetch from a feed
             select={this.handleDateSelect}
             eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
@@ -52,6 +70,8 @@ export default class FullCalendario extends React.Component {
       </div>
     )
   }
+
+ 
 
   renderSidebar() {
     return (
