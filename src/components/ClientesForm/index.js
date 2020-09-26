@@ -59,7 +59,7 @@ const ClientesForm = ( {setOpen} ) =>{
 
     const handlerCargarArticulos = function(e){
         const opcion = e.target.value;
-        console.log(opcion);
+        // console.log(opcion);
 
         setIdArticulos(opcion);
     }
@@ -73,7 +73,7 @@ const ClientesForm = ( {setOpen} ) =>{
                 onSubmit={(data, { setSubmitting})=>{
                 setSubmitting(true);
                 postData(data);
-                console.log(JSON.stringify(data))
+                // console.log(JSON.stringify(data))
                 //make async call
                 setSubmitting(false);  
                Swal.fire({

@@ -17,6 +17,12 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
   const IDstatus = servicio.servicios.IDSe
   const [informes, setInformes]= React.useState([])
   console.log(informes)
+
+   // Se mapea para extraer los comenatarios que estab en la base, pero solo extrae los que estan en ese momento
+  // const hisComentario = informes.map((item, i)=>(item.Comentario))
+  // console.log(hisComentario)
+
+
   const [open, setOpen]= React.useState(false);
   const theme = useTheme();
   const [date, setDate]= React.useState("")
@@ -79,7 +85,6 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
                                     Se le informa que su servicio ${servicio.servicios.Tipo} ha finalizado el día ${date}.<br><br>
 
 
-
                                 </p>                          
                                
                                                               
@@ -99,7 +104,7 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
     Api.post('/Email', email)}
 
   const PostData= async(data)=>{
-      console.log(data)
+      // console.log(data)
     const response = await Api.put(`/ActualizarStSE/${IDstatus}`, data)
     if(response.data===true){
       Swal.fire({
@@ -131,8 +136,7 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
   useEffect(() => {   
     const GetData = async () =>{
         const response =  await Api.get(`ListaHistSE/${ID}`)
-        setInformes(response.data);
-      };    
+        setInformes(response.data);      };    
         GetData()
         getDate()
   }, [] ) ; 
@@ -145,7 +149,7 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
       historial:{ Fecha: date, Comentario: '', IDServiceSE:ID, IDusuario:servicio.servicios.IDusuario }}}
       onSubmit={(data, { setSubmitting }) => {
           setSubmitting(true);
-          console.log("submit", data)
+          // console.log("submit", data)
           PostData(data)
           //make async call
           setSubmitting(false);

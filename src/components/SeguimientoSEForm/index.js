@@ -42,7 +42,7 @@ const TablePrueba =()=>{
        const [cookiee, setCoo] = React.useState(['ID'])
         //Listado que trae el API
         const [listado, setListado] = React.useState([])
-        console.log(listado)
+        // console.log(listado)
         //Inicializamos el state de la tabla
         //Paginacion, Tablas que muestra e informacion
         const [page, setPage] = React.useState(0);  
@@ -62,7 +62,7 @@ const TablePrueba =()=>{
               const getCookie = () => {           
                 console.log(cookie.get('ID'));  
                 const IDu = cookie.get('ID');
-                console.log('Recuperaste', IDu)
+                // console.log('Recuperaste', IDu)
                 setCoo({ID:IDu})
             }   
 
