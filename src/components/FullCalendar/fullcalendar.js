@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -8,9 +8,9 @@ import esLocale from '@fullcalendar/core/locales/es';
 import listPlugin from '@fullcalendar/list';
 
 import styled from 'styled-components';
-import {TextField, Button, NativeSelect} from '@material-ui/core';
-import {Cookies} from 'react-cookie'
-import {Formik} from 'formik';
+import { TextField, Button, NativeSelect } from '@material-ui/core';
+import { Cookies } from 'react-cookie'
+import { Formik } from 'formik';
 import Api from '../../Helpers/Api';
 import axios from 'axios';
 
@@ -20,9 +20,9 @@ export default class FullCalendario extends React.Component {
   state = {
     weekendsVisible: true,
     currentEvents: [],
-    serviciosSE:[]
+    serviciosSE: []
   }
- 
+
   componentDidMount() {
     Api.get(`ServiciosSEs`)
       .then(res => {
@@ -32,8 +32,8 @@ export default class FullCalendario extends React.Component {
       })
   }
 
-  
-// {this.state.serviciosSE.map(servicio =>{servicio.Problema})}
+
+  // {this.state.serviciosSE.map(servicio =>{servicio.Problema})}
 
   render() {
     return (
@@ -41,7 +41,7 @@ export default class FullCalendario extends React.Component {
         {this.renderSidebar()}
         <div className='demo-app-main'>
           <FullCalendar
-          locale="es"
+            locale="es"
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
             headerToolbar={{
               left: 'prev,next today',
@@ -54,36 +54,36 @@ export default class FullCalendario extends React.Component {
             selectMirror={true}
             dayMaxEvents={true}
             weekends={this.state.weekendsVisible}
-            initialEvents={[{title: 'evento', date: '', color:'#000'}]} // alternatively, use the `events` setting to fetch from a feed
+            initialEvents={[{ title: 'evento', date: '', color: '#000' }]} // alternatively, use the `events` setting to fetch from a feed
             select={this.handleDateSelect}
             eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
             eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
-         
+          /* you can update a remote database when these fire:
+          eventAdd={function(){}}
+          eventChange={function(){}}
+          eventRemove={function(){}}
+          */
+
           />
         </div>
       </div>
     )
   }
 
- 
+
 
   renderSidebar() {
     return (
-      <div className='demo-app-sidebar'>        
+      <div className='demo-app-sidebar'>
         <div className='demo-app-sidebar-section'>
           <label>
-            <input style={{display:"none"}}
+            <input style={{ display: "none" }}
               type='checkbox'
               checked={this.state.weekendsVisible}
               onChange={this.handleWeekendsToggle}
             ></input>
-            
+
           </label>
         </div>
         <div className='demo-app-sidebar-section'>
@@ -146,7 +146,7 @@ function renderEventContent(eventInfo) {
 function renderSidebarEvent(event) {
   return (
     <li key={event.id}>
-      <b>{formatDate(event.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
+      <b>{formatDate(event.start, { year: 'numeric', month: 'short', day: 'numeric' })}</b>
       <i>{event.title}</i>
     </li>
   )

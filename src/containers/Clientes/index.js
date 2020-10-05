@@ -1,11 +1,13 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import ClientesForm from "../../components/ClientesForm";
 import styled from "styled-components";
 import TableClientes from "../../containers/Clientes/tableClientes";
 import { Button, Dialog, DialogContent, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { useHistory } from 'react-router';
-import {useCookies, Cookies} from 'react-cookie';
+import { useCookies, Cookies } from 'react-cookie';
+import CloseIcon from '@material-ui/icons/Close';
+
 
 const ClientesContainer = () => {
   // const history = useHistory();
@@ -21,39 +23,40 @@ const ClientesContainer = () => {
   //     }
   //     getCookie();
   // }, [])
-    const [open, setOpen] = React.useState(false);
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    return (
-        <ClienteContainer className="responsive">
-            <div className="column">
-                <TableClientes />
-            </div>
+  return (
+    <ClienteContainer className="responsive">
+      <div className="column">
+        <TableClientes />
+      </div>
 
-            <div className="column">
-                <Dialog
-                    fullScreen={fullScreen}
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="responsive-dialog-title"
-                >
-                    <DialogContent>  
-                        <ClientesForm setOpen={ setOpen } />
-                    </DialogContent>
-                </Dialog>
-            </div>
-            <Button variant="contained" color="primary" onClick={ handleClickOpen } >Agregar Nuevo Cliente</Button>   
-        </ClienteContainer>
-    );
+      <div className="column">
+        <Dialog
+          fullScreen={fullScreen}
+          open={open}
+
+          aria-labelledby="responsive-dialog-title"
+          disableBackdropClick="true"
+        >
+          <DialogContent>
+            <ClientesForm setOpen={setOpen} />
+          </DialogContent>
+        </Dialog>
+      </div>
+      <Button variant="contained" color="primary" onClick={handleClickOpen} >Agregar Nuevo Cliente</Button>
+    </ClienteContainer>
+  );
 };
 // NO MOVER, solo dios sabe como funciona
 

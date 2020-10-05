@@ -37,7 +37,7 @@ const ImageForm = ({servicios, setEvidenciaOpen}) =>{
             IDServiceSE:id    
         }
         console.log(data)
-      const response = await Api.post('/ImagenesSE', data)
+      const response = await Api.post("/ImagenesSE", data)
       if(response.data!=null){
           Swal.fire({
             position: 'top-center',
