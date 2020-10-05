@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -6,72 +6,71 @@ import Api from '../../Helpers/Api';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Dialog, DialogContent, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import EditarForm from '../DetallesForm/editar'
 
-const VerMas =({servicios, setModalOpen})=>{
-    const [services, setService]=React.useState([])
-    const [equipos, setEquipos]=React.useState({})
-    const IDtab = {servicios}
-    const IDbusqueda = IDtab.servicios.IDservicio
-    const ID = services.IDequipo
-    const history = useHistory();
-    //
-    const [open, setOpen] = React.useState(false);
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+const VerMas = ({ servicios, setModalOpen }) => {
+  const [services, setService] = React.useState([])
+  const [equipos, setEquipos] = React.useState({})
+  const IDtab = { servicios }
+  const IDbusqueda = IDtab.servicios.IDservicio
+  const ID = services.IDequipo
+  const history = useHistory();
+  //
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const cerrar =()=>{
-      setModalOpen(false)
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const cerrar = () => {
+    setModalOpen(false)
+  }
 
-    }
 
+  const Next = () => {
+    history.push(`/Ver/${services.IDservicio}`);
+  }
 
-    const Next = () =>{
-      history.push(`/Ver/${services.IDservicio}`);
-    }
-
-    const Get = async () =>{
-    const response =  await Api.get(`Equipos/${ID}`)
+  const Get = async () => {
+    const response = await Api.get(`Equipos/${ID}`)
     const eq = response.data;
     setEquipos(eq)
+  }
+  const GetData = async () => {
+    const response = await Api.get(`DetalleServicio/${IDbusqueda}`)
+    const service = response.data;
+    if (service != null) {
+      setService(service[0])
+      // console.log('Envias', ID)
     }
-    const GetData = async () =>{
-      const response =  await Api.get(`DetalleServicio/${IDbusqueda}`)
-          const service = response.data;
-          if(service!=null){
-            setService(service[0])
-            console.log('Envias', ID)
-          }
 
-    }
-      ;
-    useEffect(() => {       
-        GetData()
-        }, [] ) ; 
+  }
+    ;
+  useEffect(() => {
+    GetData()
+  }, []);
 
-        if(ID!=null){
-          Get()
-        }
+  if (ID != null) {
+    Get()
+  }
 
-    return (
-        <DetallesCard>
-        <Typography  variant="h6" gutterBottom>
-          DETALLES DE SERVICIO
+  return (
+    <DetallesCard>
+      <Typography variant="h6" gutterBottom>
+        DETALLES DE SERVICIO
         </Typography>
-        {/* {services.map(detalle=>( */}
-        <Grid key={services.IDservicio} container spacing={3}>
+      {/* {services.map(detalle=>( */}
+      <Grid key={services.IDservicio} container spacing={3}>
         <Grid item xs={12} sm={6}>
-        <TextField
+          <TextField
             label="Tipo de servicio"
             value={services.Tipo}
             fullWidth
@@ -101,14 +100,14 @@ const VerMas =({servicios, setModalOpen})=>{
             fullWidth
           />
         </Grid>
-        </Grid>
-         {/* ))} */}
-         <br/>
-         <Typography variant="h6" gutterBottom>
-          DETALLES DEL EQUIPO
+      </Grid>
+      {/* ))} */}
+      <br />
+      <Typography variant="h6" gutterBottom>
+        DETALLES DEL EQUIPO
         </Typography>
-        <br/>
-        <Grid key={equipos.IDequipo} container spacing={3}>
+      <br />
+      <Grid key={equipos.IDequipo} container spacing={3}>
         <Grid item xs={12}>
           <TextField
             multiline
@@ -135,29 +134,29 @@ const VerMas =({servicios, setModalOpen})=>{
           />
         </Grid>
         <Dialog
-                    fullScreen={fullScreen}
-                    open={open}
-                    services={services} 
-                    onClose={handleClose}
-                    aria-labelledby="responsive-dialog-title"
-                >
-                    <DialogContent>  
-                        <EditarForm services={services} setOpen={ setOpen } />
-                    </DialogContent>
-                </Dialog>
+          fullScreen={fullScreen}
+          open={open}
+          services={services}
+          onClose={handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogContent>
+            <EditarForm services={services} setOpen={setOpen} />
+          </DialogContent>
+        </Dialog>
         <Grid align="center" item xs={12}>
-        <Button onClick={handleClickOpen}  variant="contained" color="primary" >Actualizar</Button>
-        <Button onClick={cerrar} variant="contained" color="primary" >Cerrar</Button>
+          <Button onClick={handleClickOpen} variant="contained" color="primary" >Actualizar</Button>
+          <Button onClick={cerrar} variant="contained" color="primary" >Cerrar</Button>
         </Grid>
       </Grid>
     </DetallesCard>
-    )
+  )
 }
 
-const DetallesCard=styled.div`
+const DetallesCard = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
- ` 
+ `
 
 export default VerMas;

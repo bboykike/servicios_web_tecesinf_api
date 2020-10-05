@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
 import Api from '../../Helpers/Api';
-import {Button} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Dialog, DialogContent, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
@@ -11,36 +11,36 @@ import styled from 'styled-components';
 import { Formik } from 'formik';
 import Swal from 'sweetalert2';
 
-const  TableHistorial = ({servicios, setHistorialOpen}) => {
-  const servicio = {servicios}
+const TableHistorial = ({ servicios, setHistorialOpen }) => {
+  const servicio = { servicios }
   const ID = servicio.servicios.IDServiceSE
   const IDstatus = servicio.servicios.IDSe
-  const [informes, setInformes]= React.useState([])
+  const [informes, setInformes] = React.useState([])
   console.log(informes)
 
-   // Se mapea para extraer los comenatarios que estab en la base, pero solo extrae los que estan en ese momento
+  // Se mapea para extraer los comenatarios que estab en la base, pero solo extrae los que estan en ese momento
   // const hisComentario = informes.map((item, i)=>(item.Comentario))
   // console.log(hisComentario)
 
 
-  const [open, setOpen]= React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const theme = useTheme();
-  const [date, setDate]= React.useState("")
+  const [date, setDate] = React.useState("")
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-          //obtener fecha
-          const getDate =()=> {
-            var today = new Date();   
-            const fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);   
-            setDate(fecha)
-        }
+  //obtener fecha
+  const getDate = () => {
+    var today = new Date();
+    const fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    setDate(fecha)
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
   }
-  const closeModal=()=>{
-    {setHistorialOpen(false)}
+  const closeModal = () => {
+    { setHistorialOpen(false) }
   }
-  const handleClose = ()=>{
+  const handleClose = () => {
     setOpen(false)
   }
   const columns = [
@@ -58,9 +58,9 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
     }
   ];
 
-  
-  const Enviar = () =>{
-    const html= `<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
+
+  const Enviar = () => {
+    const html = `<table style="max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;">
                     <tr>
                         <td style="background-color: #ecf0f1; text-align: left; padding: 0">
                             <a href="">
@@ -96,125 +96,131 @@ const  TableHistorial = ({servicios, setHistorialOpen}) => {
                         </td>
                     </tr>
                 </table>`
-          const  email={
-              to: `${servicio.servicios.Email}`,
-              subject:  `SERVICIO TECESINF ${date}`,
-              body: html
-            }
-    Api.post('/Email', email)}
+    const email = {
+      to: `${servicio.servicios.Email}`,
+      subject: `SERVICIO TECESINF ${date}`,
+      body: html
+    }
+    Api.post('/Email', email)
+  }
 
-  const PostData= async(data)=>{
-      // console.log(data)
+  const PostData = async (data) => {
+    // console.log(data)
     const response = await Api.put(`/ActualizarStSE/${IDstatus}`, data)
-    if(response.data===true){
+    if (response.data === true) {
+      handleClose();
+      closeModal();
       Swal.fire({
         position: 'top-center',
         icon: 'success',
         title: 'Se ha finalizado con exito',
         showConfirmButton: false,
         timer: 1500
-      }).then(function() {
+      }).then(function () {
         Enviar()
         handleClose()
         window.location = "/SeguimientoSE";
-      }); 
-    
-    }else{
+      });
+
+    } else {
       Swal.fire({
         position: 'top-center',
         icon: 'error',
         title: 'Ocurrio un error, por favor intente nuevamente',
         showConfirmButton: false,
         timer: 1500
-      }).then(function() {       
+      }).then(function () {
         window.location = "/Seguimiento";
-      }); 
+      });
     }
 
   }
 
-  useEffect(() => {   
-    const GetData = async () =>{
-        const response =  await Api.get(`ListaHistSE/${ID}`)
-        setInformes(response.data);      };    
-        GetData()
-        getDate()
-  }, [] ) ; 
+  useEffect(() => {
+    const GetData = async () => {
+      const response = await Api.get(`ListaHistSE/${ID}`)
+      setInformes(response.data);
+    };
+    GetData()
+    getDate()
+  }, []);
 
-  const NuevoInforme =()=>{
-    return(
+  const NuevoInforme = () => {
+    return (
       <div>
-      <Formik
-      initialValues={{status:{IDSe:servicio.servicios.IDstatus, Status:'Finalizado', IDServiceSE:ID},
-      historial:{ Fecha: date, Comentario: '', IDServiceSE:ID, IDusuario:servicio.servicios.IDusuario }}}
-      onSubmit={(data, { setSubmitting }) => {
-          setSubmitting(true);
-          // console.log("submit", data)
-          PostData(data)
-          //make async call
-          setSubmitting(false);
-      }}
-      >
-      {({ values, isSubmitting, handleChange, handleBlur, handleSubmit }) => (
-      <form onSubmit={handleSubmit}>
-         <Typography align="center" variant="h6" gutterBottom>
-          FINALIZAR SERVICIO
+        <Formik
+          initialValues={{
+            status: { IDSe: servicio.servicios.IDstatus, Status: 'Finalizado', IDServiceSE: ID },
+            historial: { Fecha: date, Comentario: '', IDServiceSE: ID, IDusuario: servicio.servicios.IDusuario }
+          }}
+          onSubmit={(data, { setSubmitting }) => {
+            setSubmitting(true);
+            // console.log("submit", data)
+            PostData(data)
+            //make async call
+            setSubmitting(false);
+          }}
+        >
+          {({ values, isSubmitting, handleChange, handleBlur, handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Typography align="center" variant="h6" gutterBottom>
+                FINALIZAR SERVICIO
         </Typography>
-        {/* {services.map(detalle=>( */}
-        <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-        <TextField
-            label="Fecha de registro"
-            defaultValue= {`${date}`}
-            value={values.Fecha}
-            disabled
-            // defaultValue={`${date}`}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            multiline
-            name="historial.Comentario"
-            label="Descripción del informe"
-            values={values.Comentario}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            fullWidth
-          />
-        </Grid>
-        <Button color="primary" variant="contained" type="submit" disabled={isSubmitting} >Guardar</Button>
-        <Button color="primary" variant="contained" onClick={handleClose}>Cerrar</Button>
-        </Grid>
-        </form>
-         )}
-       </Formik>
+              {/* {services.map(detalle=>( */}
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Fecha de registro"
+                    defaultValue={`${date}`}
+                    value={values.Fecha}
+                    disabled
+                    // defaultValue={`${date}`}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    name="historial.Comentario"
+                    label="Descripción del informe"
+                    values={values.Comentario}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    fullWidth
+                  />
+                </Grid>
+                <Button color="primary" variant="contained" type="submit" disabled={isSubmitting} >Guardar</Button>
+                <Button color="primary" variant="contained" onClick={handleClose}>Cerrar</Button>
+              </Grid>
+            </form>
+          )}
+        </Formik>
       </div>
     )
   }
   return (
     <>
-    <MaterialTable
-      title="Informes"
-      columns={columns}
-      data={informes}
-      options={{
-        actionsColumnIndex: -1,
-        exportButton: true
-      }}
-    />
-    <br/>
-    <Button onClick={handleClickOpen} color="primary" variant="contained">Finalizar Servicio</Button>
-    <Button onClick={closeModal} color="primary" variant="contained">Cerrar</Button>
-    <Dialog
-      fullScreen={fullScreen}
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="responsive-dialog-title"
->
-      <DialogContent>  
-      <NuevoInforme />
-      </DialogContent>
+      <MaterialTable
+        title="Informes"
+        columns={columns}
+        data={informes}
+        options={{
+          actionsColumnIndex: -1,
+          exportButton: true
+        }}
+      />
+      <br />
+      <Button onClick={handleClickOpen} color="primary" variant="contained">Finalizar Servicio</Button>
+      <Button onClick={closeModal} color="primary" variant="contained">Cerrar</Button>
+      <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogContent>
+          <NuevoInforme />
+        </DialogContent>
       </Dialog>
     </>
   );

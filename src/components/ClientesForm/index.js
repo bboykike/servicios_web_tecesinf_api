@@ -85,12 +85,13 @@ const ClientesForm = ({ setOpen }) => {
                         // console.log(JSON.stringify(data))
                         //make async call
                         setSubmitting(false);
+                        handleClose();
                         Swal.fire({
                             position: 'top-center',
                             icon: 'success',
                             title: 'El cliente se guardo éxitosamente',
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 1800
                         }).then(function () {
                             window.location = "/Clientes";
                         });
@@ -121,7 +122,7 @@ const ClientesForm = ({ setOpen }) => {
                                         value={values.Cliente}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        label="Cliente" />
+                                        label="Cliente" required />
                                 </div>
                                 <div>
                                     <TextField
@@ -143,7 +144,7 @@ const ClientesForm = ({ setOpen }) => {
                                         value={values.Email}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        label="Email" />
+                                        label="Email" required />
                                 </div>
                                 <div>
                                     <TextField
@@ -165,7 +166,7 @@ const ClientesForm = ({ setOpen }) => {
                                         value={values.Cp}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        label="Código Postal" />
+                                        label="Código Postal" required />
                                 </div>
                                 <div>
                                     <TextField
@@ -187,7 +188,7 @@ const ClientesForm = ({ setOpen }) => {
                                         value={values.Celular}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        label="Celular" />
+                                        label="Celular" required />
                                 </div>
                                 <br />
                                 <div>
@@ -241,6 +242,17 @@ const ClientesForm = ({ setOpen }) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         label="Nombre de la sucursal a registrar" />
+                                </div>
+                                <div>
+                                    <TextField
+                                        name="sucursals.Direccion"
+                                        inputProps={{
+                                            maxLength: 80,
+                                        }}
+                                        value={values.Sucursal}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        label="Dirección de la sucursal" />
                                 </div>
                                 <div>
 
