@@ -34,48 +34,53 @@ const NestedList = () => {
   const [pre, setPre] = React.useState(false);
   const [empleados, setEmpleados] = React.useState(false);
   const [usuarios, setUsuarios] = React.useState(false);
+  const [activos, setActivos] = React.useState(false);
   const history = useHistory();
 
-   //FullCalendar
-  const ActivosClick = () =>{
+  //FullCalendar
+  const ActivosClick = () => {
     history.push('/Activos')
   }
 
   //Servicios
-  const ServiciosClick = () =>{
+  const ServiciosClick = () => {
     history.push('/Servicios')
   }
-  const UsuariosClick = () =>{
+  const UsuariosClick = () => {
     history.push('/Usuarios')
   }
 
-  const SeguimientoClick =()=>{
+  const SeguimientoClick = () => {
     history.push('/ServicioSE')
   }
   //Clientes
-  const ListaClientes = () =>{
+  const ListaClientes = () => {
     history.push('/Clientes')
   }
 
   //Empleados
-  const ListaEmpleados = () =>{
+  const ListaEmpleados = () => {
     history.push('/Usuarios')
   }
-//Seguimiento
-  const Seg = () =>{
+  //Seguimiento
+  const Seg = () => {
     history.push('/Seguimiento')
   }
   const SegSE = () => {
     history.push('/SeguimientoSE')
   }
 
-  const closeSesion = () =>{
+  const closeSesion = () => {
     history.push('/')
   }
 
   //
   const handleClick = () => {
     setOpens(!opens);
+  };
+
+  const CalendarPageClick = () => {
+    setActivos(!activos)
   };
 
   const ClientesClick = () => {
@@ -89,9 +94,11 @@ const NestedList = () => {
     setEmpleados(!empleados);
   };
 
-  const UserClick =()=>{
+  const UserClick = () => {
     setUsuarios(!usuarios)
   }
+
+
 
   return (
     <List
@@ -104,13 +111,13 @@ const NestedList = () => {
       }
       className={classes.root}
     >
-     <ListItem button >
+      <ListItem button >
         <ListItemIcon>
           <LockIcon />
         </ListItemIcon>
-        <ListItemText onClick="{ActivosClick}" primary="ACTIVOS" />        
+        <ListItemText onClick={ActivosClick} primary="ACTIVOS" />
       </ListItem>
-              {/* <!--Servicios--> */}
+      {/* <!--Servicios--> */}
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
           <BuildIcon />
@@ -210,7 +217,7 @@ const NestedList = () => {
         <ListItemIcon>
           <LockIcon />
         </ListItemIcon>
-        <ListItemText onClick={closeSesion}  primary="CERRAR SESIÓN" />        
+        <ListItemText onClick={closeSesion} primary="CERRAR SESIÓN" />
       </ListItem>
     </List>
   );
